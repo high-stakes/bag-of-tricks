@@ -1,0 +1,12 @@
+version: "2.0"
+
+services:
+  mysql:
+    image: mysql:5.7.20
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_PASSWORD: bot
+      MYSQL_USER: bot
+      MYSQL_DATABASE: bot
+      MYSQL_ROOT_PASSWORD: root
