@@ -4,9 +4,9 @@ services:
   mysql:
     image: mysql:5.7.20
     ports:
-      - 3307:3306
+      - 3306:3306
     environment:
-      MYSQL_PASSWORD: bot
-      MYSQL_USER: bot
-      MYSQL_DATABASE: bot
+      MYSQL_PASSWORD: bag_of_tricks
+      MYSQL_USER: bag_of_tricks
+      MYSQL_DATABASE: bag_of_tricks
       MYSQL_ROOT_PASSWORD: root
