@@ -1,47 +1,52 @@
 buildscript {
 	ext {
 		springBootVersion = '1.5.8.RELEASE'
+		springBomPluginVersion = '1.0.3.RELEASE'
 	}
 	repositories {
-		mavenCentral()
+		jcenter()
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "io.spring.gradle:dependency-management-plugin:${springBomPluginVersion}"
+	}
+}
+
+def javaProjects = [ 'bot-app', 'bot-database' ]
+def springSubProjects = [ 'bot-database' ]
+def angularProjects = [ 'bot-client' ]
+
+gradle.beforeProject {
+	it.buildscript {
+		repositories {
+			jcenter()
+		}
 	}
 }
 
 allprojects {
-	apply plugin: 'java'
-	apply plugin: 'org.springframework.boot'
+    group = 'com.bagoftricks'
+    version = '0.0.1-SNAPSHOT'
 
-	group = 'com.bagoftricks'
-	version = '0.0.1-SNAPSHOT'
-	sourceCompatibility = 1.8
-
-	repositories {
-		mavenCentral()
-	}
-
-    dependencies {
-        compileOnly('org.projectlombok:lombok')
+    repositories {
+		jcenter()
     }
-}
 
-dependencies {
-	compile project(':bot-database')
+    if (it.name in javaProjects) {
+        apply plugin: 'java'
 
-	compile('org.springframework.boot:spring-boot-starter-aop')
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
-	compile('org.springframework.data:spring-data-rest-hal-browser')
-	compile('org.flywaydb:flyway-core')
-	compile('org.springframework.boot:spring-boot-starter-hateoas')
-	compile('org.springframework.boot:spring-boot-starter-integration')
-	compile('org.springframework.boot:spring-boot-starter-jooq')
-	compile('org.springframework.boot:spring-boot-starter-jta-narayana')
-	compile('org.springframework.boot:spring-boot-starter-security')
-	compile('org.springframework.boot:spring-boot-starter-validation')
-	compile('org.springframework.boot:spring-boot-starter-web')
+        sourceCompatibility = 1.8
 
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.security:spring-security-test')
+        dependencies {
+            compileOnly('org.projectlombok:lombok')
+        }
+    }
+	if (it.name in springSubProjects) {
+		apply plugin: "io.spring.dependency-management"
+
+		dependencyManagement {
+			imports {
+				mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
+			}
+		}
+	}
 }

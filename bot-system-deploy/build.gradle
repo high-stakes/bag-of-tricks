@@ -1,0 +1,7 @@
+buildscript {
+    dependencies {
+        classpath "com.avast.gradle:gradle-docker-compose-plugin:0.6.0"
+    }
+}
+
+apply plugin: 'docker-compose'

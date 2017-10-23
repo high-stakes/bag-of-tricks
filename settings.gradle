@@ -1,1 +1,4 @@
 include 'bot-database'
+include 'bot-app'
+include 'bot-system-deploy'
+include 'bot-client'
